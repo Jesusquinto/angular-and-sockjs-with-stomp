@@ -1,0 +1,49 @@
+<div class="card mx-4 my-4">
+    <div class="card-header">
+        <ul class="nav nav-pills card-header-pills">
+            <li class="nav-item mr-2" *ngIf="!conectado">
+                    <input type="text" class="form-control"
+                    placeholder="Nombre de usuario" name="texto"
+                    [(ngModel)]="mensaje.usuario">
+            </li>
+
+            <li class="nav-item mr-2">
+                <button class="btn btn-success" (click)="conectar()"
+                *ngIf="!conectado" 
+                [disabled]="!mensaje.usuario">Conectar</button>
+            </li>
+            <li class="nav-item">
+                <button class="btn btn-warning" (click)="desconectar()"
+                *ngIf="conectado">Desconectar</button>
+
+            </li>
+        </ul>
+    </div>
+    <div class="card-body" style="overflow-y: scroll;  height: 360px;"
+    *ngIf="conectado">
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-light"
+            *ngFor="let mensaje of mensajes">
+            <span *ngIf="mensaje.tipo=='NUEVO_USUARIO'">
+            @{{mensaje.usuario}} {{mensaje.texto}} -  {{mensaje.fecha | date : 'shortTime'}}
+            </span>
+            <span *ngIf="mensaje.tipo=='MENSAJE'">
+            @{{mensaje.usuario}} :<br> {{mensaje.texto}} -  {{mensaje.fecha | date : 'shortTime'}}
+            </span>
+            </li>
+        </ul>
+
+    </div>
+    <div class="card-footer" *ngIf="conectado">
+        <form class="form-inline">
+            <div class="form-group mx-3">
+                <input type="text" class="form-control"
+                 placeholder="Escribir mensaje" name="texto"
+                 [(ngModel)]="mensaje.texto">
+            </div>
+            <button class="btn btn-info" 
+            (click)="enviarMensaje()">Enviar</button>
+
+        </form>
+    </div>
+</div>
